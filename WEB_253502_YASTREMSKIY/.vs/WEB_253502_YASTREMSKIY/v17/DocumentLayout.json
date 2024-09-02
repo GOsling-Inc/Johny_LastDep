@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "Views\\_ViewStart.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-02T16:01:29.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Layout.cshtml.css",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml.css",
+              "RelativeDocumentMoniker": "Views\\Shared\\Layout.cshtml.css",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml.css",
+              "RelativeToolTip": "Views\\Shared\\Layout.cshtml.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC8AAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-09-02T15:41:12.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Layout.cshtml",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\Layout.cshtml",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\Layout.cshtml",
+              "ViewState": "AQIAACoAAAAAAAAAAAAAADUAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-02T15:08:21.975Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-02T14:58:25.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T10:05:19.153Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
