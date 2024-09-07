@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\wwwroot\\images\\user-icon.png",
+      "PackagePath": "staticwebassets\\images\\user-icon.png"
+    },
+    {
       "Id": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

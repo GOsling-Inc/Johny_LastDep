@@ -3,24 +3,31 @@
   "WorkspaceRootPath": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{626345C4-41CD-4500-B548-4DAA90F64632}|..\\WEB_253502_YASTREMSKIY.Domain\\WEB_253502_YASTREMSKIY.Domain.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy.domain\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\layout.cshtml.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\components\\cart\\cartviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\components\\cart\\cartviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\_userinfopartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\_userinfopartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\components\\cart\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\components\\cart\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|d:\\studying\\sem5\\sppr\\web_253502_yastremskiy\\views\\shared\\_menupartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F149B831-43EE-43B9-A394-736EE2A88DDC}|WEB_253502_YASTREMSKIY.csproj|solutionrelative:views\\shared\\_menupartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,46 +37,44 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "_ViewStart.cshtml",
-              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\_ViewStart.cshtml",
-              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
-              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\_ViewStart.cshtml",
-              "RelativeToolTip": "Views\\_ViewStart.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-02T16:01:29.932Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Layout.cshtml.css",
-              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml.css",
-              "RelativeDocumentMoniker": "Views\\Shared\\Layout.cshtml.css",
-              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml.css",
-              "RelativeToolTip": "Views\\Shared\\Layout.cshtml.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC8AAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-02T15:41:12.722Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY.Domain\\Entities\\Category.cs",
+              "RelativeDocumentMoniker": "..\\WEB_253502_YASTREMSKIY.Domain\\Entities\\Category.cs",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY.Domain\\Entities\\Category.cs",
+              "RelativeToolTip": "..\\WEB_253502_YASTREMSKIY.Domain\\Entities\\Category.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-07T17:52:58.082Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_UserInfoPartial.cshtml",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\_UserInfoPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_UserInfoPartial.cshtml",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\_UserInfoPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_UserInfoPartial.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-06T12:07:05.237Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Layout.cshtml",
               "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\Layout.cshtml",
               "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Layout.cshtml",
               "RelativeToolTip": "Views\\Shared\\Layout.cshtml",
-              "ViewState": "AQIAACoAAAAAAAAAAAAAADUAAAANAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-02T15:08:21.975Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-06T12:05:30.114Z"
             },
             {
               "$type": "Document",
@@ -79,23 +84,46 @@
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
               "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAJAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-02T14:58:25.898Z",
+              "WhenOpened": "2024-09-06T12:05:21.869Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAFAAAA",
+              "DocumentIndex": 6,
+              "Title": "_MenuPartial.cshtml",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\_MenuPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_MenuPartial.cshtml",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\_MenuPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_MenuPartial.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-06T12:00:11.585Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Components\\Cart\\Default.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\Components\\Cart\\Default.cshtml",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Components\\Cart\\Default.cshtml",
+              "RelativeToolTip": "Views\\Shared\\Components\\Cart\\Default.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-06T11:42:44.306Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CartViewComponent.cs",
+              "DocumentMoniker": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Components\\Cart\\CartViewComponent.cs",
+              "RelativeDocumentMoniker": "Views\\Shared\\Components\\Cart\\CartViewComponent.cs",
+              "ToolTip": "D:\\studying\\sem5\\sppr\\WEB_253502_YASTREMSKIY\\Views\\Shared\\Components\\Cart\\CartViewComponent.cs",
+              "RelativeToolTip": "Views\\Shared\\Components\\Cart\\CartViewComponent.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-02T10:05:19.153Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-06T11:42:43.334Z"
             }
           ]
         }
