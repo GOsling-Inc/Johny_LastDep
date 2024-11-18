@@ -34,7 +34,7 @@ namespace Johny_LastDep
 			GamePot = new Pot();
 			GameTable = new Table(Players, 0, 10, 20, 10, 100); 
 			_dealer = new Dealer(GameTable, GamePot); 
-			_bettingManager = new BettingManager(Players); 
+			_bettingManager = new BettingManager(Players, GamePot); 
 			_gameState = new GameState(Players); 
 		}
 
@@ -54,7 +54,11 @@ namespace Johny_LastDep
 				_gameState.Pot = 0;
 
 				DetermineCommunityCards(); 
-				DetermineWinner(); 
+				DetermineWinner();
+				for(int j = 0; j < 3; j++)
+				{
+					Console.WriteLine($"{Players[j].Name}, {Players[j].Chips}");
+				}
 				ResetGame();
 			}
 		}
@@ -80,11 +84,15 @@ namespace Johny_LastDep
 		private void DetermineWinner()
 		{
 			var winner = _dealer.DetermineWinner(Players);
-			_dealer.DistributeWinnings(winner); 
+			_dealer.DistributeWinnings(winner, _bettingManager._pot);
 			if (winner != null)
 			{
 				_gameState.UpdatePot(GamePot.TotalAmount);
-				_gameState.AddAction($"Победитель: {winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
+				var winnerMessage = winner.Count == 1
+							? $"Победитель: {winner[0].Name} с рукой: {string.Join(", ", winner[0].HandCards.Select(card => card.ToString()))}!"
+							: $"Ничья между игроками: {string.Join(", ", winner.Select(w => $"{w.Name} с рукой: {string.Join(", ", w.HandCards.Select(card => card.ToString()))}"))}";
+
+				_gameState.AddAction(winnerMessage);
 			}
 			else
 			{

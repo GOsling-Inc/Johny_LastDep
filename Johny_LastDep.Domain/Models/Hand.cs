@@ -34,53 +34,65 @@ namespace Johny_LastDep.Domain.Entities
 			else if (IsFourOfAKind())
 			{
 				Type = HandType.FourOfAKind;
-				HighCards.AddRange(Cards.GroupBy(c => c.Rank)
-										 .OrderByDescending(g => g.Key)
-										 .SelectMany(g => g.Take(4)).Select(c => c.Rank));
+				HighCards.Add(Cards.GroupBy(c => c.Rank)
+									.OrderByDescending(g => g.Key)
+									.First().Key); 
 			}
 			else if (IsFullHouse())
 			{
 				Type = HandType.FullHouse;
-				HighCards.Add(Cards.GroupBy(c => c.Rank)
-								   .OrderByDescending(g => g.Key)
-								   .First().Key); 
+				var groups = Cards.GroupBy(c => c.Rank).OrderByDescending(g => g.Key).ToList();
+				HighCards.Add(groups[0].Key); 
+				HighCards.Add(groups[1].Key); 
 			}
 			else if (IsFlush())
 			{
 				Type = HandType.Flush;
-				HighCards.AddRange(Cards.Select(c => c.Rank));
+				HighCards.AddRange(Cards.Select(c => c.Rank)); 
 			}
 			else if (IsStraight())
 			{
 				Type = HandType.Straight;
-				HighCards.Add(Cards[0].Rank); 
+				HighCards.Add(Cards[0].Rank);
 			}
 			else if (IsThreeOfAKind())
 			{
 				Type = HandType.ThreeOfAKind;
 				HighCards.Add(Cards.GroupBy(c => c.Rank)
-								   .OrderByDescending(g => g.Key)
-								   .First().Key); 
+									.OrderByDescending(g => g.Key)
+									.First().Key); 
+				HighCards.AddRange(Cards.Select(c => c.Rank)
+										.Distinct()
+										.Where(r => r != HighCards[0])
+										.OrderByDescending(r => r)
+										.Take(2));
 			}
 			else if (IsTwoPair())
 			{
 				Type = HandType.TwoPair;
-				HighCards.AddRange(Cards.GroupBy(c => c.Rank)
-										 .Where(g => g.Count() == 2)
-										 .OrderByDescending(g => g.Key)
-										 .Select(g => g.Key));
+				var pairs = Cards.GroupBy(c => c.Rank)
+								 .Where(g => g.Count() == 2)
+								 .OrderByDescending(g => g.Key)
+								 .ToList();
+				HighCards.AddRange(pairs.Select(p => p.Key)); 
+				HighCards.Add(Cards.First(c => !HighCards.Contains(c.Rank)).Rank); 
 			}
 			else if (IsOnePair())
 			{
 				Type = HandType.OnePair;
 				HighCards.Add(Cards.GroupBy(c => c.Rank)
-								   .OrderByDescending(g => g.Key)
-								   .First().Key); 
+									.OrderByDescending(g => g.Key)
+									.First().Key); 
+				HighCards.AddRange(Cards.Select(c => c.Rank)
+										.Distinct()
+										.Where(r => r != HighCards[0])
+										.OrderByDescending(r => r)
+										.Take(3)); 
 			}
 			else
 			{
 				Type = HandType.HighCard;
-				HighCards.Add(Cards[0].Rank);
+				HighCards.AddRange(Cards.Select(c => c.Rank)); 
 			}
 		}
 
@@ -110,10 +122,10 @@ namespace Johny_LastDep.Domain.Entities
 			{
 				if (Cards[i].Rank - 1 != Cards[i + 1].Rank)
 				{
-					return false;
+					return false; 
 				}
 			}
-			return true;
+			return true; 
 		}
 
 		private bool IsThreeOfAKind()
@@ -129,7 +141,7 @@ namespace Johny_LastDep.Domain.Entities
 
 		private bool IsOnePair()
 		{
-			return HasNOfAKind(2);
+			return HasNOfAKind(2); 
 		}
 
 		private bool HasNOfAKind(int n)
@@ -145,16 +157,16 @@ namespace Johny_LastDep.Domain.Entities
 			}
 			else
 			{
-				for (int i = 0; i < hand1.HighCards.Count; i++)
+				for (int i = 0; i < Math.Min(hand1.HighCards.Count, hand2.HighCards.Count); i++)
 				{
 					int comparison = hand1.HighCards[i].CompareTo(hand2.HighCards[i]);
 					if (comparison != 0)
 					{
-						return comparison;
+						return comparison; 
 					}
 				}
+				return 0; 
 			}
-			return 0; 
 		}
 	}
 }

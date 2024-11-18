@@ -9,7 +9,7 @@ namespace Johny_LastDep.Domain.Models
 	{
 		private Deck _deck;
 		private Table _table;
-		private Pot _pot;
+		public Pot _pot { get; private set; }
 
 		public Dealer(Table table, Pot pot)
 		{
@@ -42,10 +42,10 @@ namespace Johny_LastDep.Domain.Models
 			}
 		}
 
-		public Player DetermineWinner(List<Player> players)
+		public List<Player> DetermineWinner(List<Player> players)
 		{
 			var evaluator = new HandEvaluator();
-			Player winner = null;
+			List<Player> winners = new List<Player>();
 			Hand winningHand = null;
 
 			foreach (var player in players.Where(p => p.IsPlaying))
@@ -56,23 +56,50 @@ namespace Johny_LastDep.Domain.Models
 				if (winningHand == null || Hand.CompareHands(playerHand, winningHand) > 0)
 				{
 					winningHand = playerHand;
-					winner = player;
+					winners.Clear(); 
+					winners.Add(player);
+				}
+				else if (winningHand != null && Hand.CompareHands(playerHand, winningHand) == 0)
+				{
+					winners.Add(player);
 				}
 			}
 
-			return winner;
+			return winners;
 		}
 
-		public void DistributeWinnings(Player winner)
+		public void DistributeWinnings(List<Player> winners, Pot pot)
 		{
-			if (winner != null)
+			_pot = pot;
+			if (winners.Count > 0)
 			{
-				Console.WriteLine($"Победитель: {winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
-				winner.Chips += _pot.TotalAmount;
+				if (winners.Count == 1)
+				{
+					Player winner = winners[0];
+					Console.WriteLine($"Победитель: {winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
+					Console.WriteLine($"Сумма в поте перед распределением: {_pot.TotalAmount}");
+					winner.Chips += _pot.TotalAmount; 
+					Console.WriteLine($"Итоговый банк {winner.Name}: {winner.Chips}");
+				}
+				else
+				{
+					Console.WriteLine("Ничья между игроками:");
+					foreach (var winner in winners)
+					{
+						Console.WriteLine($"{winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
+					}
+
+					int amountPerPlayer = _pot.TotalAmount / winners.Count;
+					foreach (var winner in winners)
+					{
+						winner.Chips += amountPerPlayer;
+						Console.WriteLine($"Каждому победителю возвращается {amountPerPlayer}. Итоговый банк {winner.Name}: {winner.Chips}");
+					}
+				}
 			}
 			else
 			{
-				Console.WriteLine("Нет победителя!");
+				Console.WriteLine("Нет победителей!");
 			}
 		}
 	}

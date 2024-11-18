@@ -7,13 +7,13 @@ namespace Johny_LastDep.Domain.Models
 	public class BettingManager
 	{
 		public int CurrentBet { get; private set; }
-		public int Pot { get; private set; }
+		public Pot _pot { get; private set; }
 		public List<Player> Players { get; private set; }
 
-		public BettingManager(List<Player> players)
+		public BettingManager(List<Player> players, Pot pot)
 		{
 			Players = players;
-			Pot = 0;
+			_pot = pot;
 			CurrentBet = 0;
 		}
 
@@ -29,11 +29,10 @@ namespace Johny_LastDep.Domain.Models
 				throw new InvalidOperationException("Недостаточно фишек для ставки.");
 			}
 
-			player.Chips -= amount;
-			Pot += amount;
+			player.Call(amount);
+			_pot.AddBet(amount, player);
 			CurrentBet = amount;
-
-			Console.WriteLine($"{player.Name} ставит {amount}. Текущий банк: {Pot}");
+			Console.WriteLine($"{player.Name} ставит {amount}. Текущий банк: {_pot.TotalAmount}");
 		}
 
 		public void HandleAllIn(Player player)
@@ -49,7 +48,7 @@ namespace Johny_LastDep.Domain.Models
 			{
 				player.CurrentBet = 0; 
 			}
-			Pot = 0; 
+			_pot = new Pot(); 
 			CurrentBet = 0; 
 		}
 	}
