@@ -9,12 +9,10 @@ namespace Johny_LastDep.Domain.Models
 	{
 		private Deck _deck;
 		private Table _table;
-		public Pot _pot { get; private set; }
 
-		public Dealer(Table table, Pot pot)
+		public Dealer(Table table)
 		{
 			_table = table;
-			_pot = pot;
 			_deck = new Deck();
 		}
 
@@ -33,8 +31,16 @@ namespace Johny_LastDep.Domain.Models
 			}
 		}
 
-		public void DealCommunityCards(int numberOfCards)
+		public void DealCards(int round)
 		{
+			var numberOfCards = 1;
+			if (round == 1) {
+				DealInitialCards(); 
+				return;
+			}
+			else if (round == 2) {
+				numberOfCards = 3;
+			}
 			for (int i = 0; i < numberOfCards; i++)
 			{
 				var card = _deck.Deal();
@@ -70,15 +76,14 @@ namespace Johny_LastDep.Domain.Models
 
 		public void DistributeWinnings(List<Player> winners, Pot pot)
 		{
-			_pot = pot;
 			if (winners.Count > 0)
 			{
 				if (winners.Count == 1)
 				{
 					Player winner = winners[0];
 					Console.WriteLine($"Победитель: {winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
-					Console.WriteLine($"Сумма в поте перед распределением: {_pot.TotalAmount}");
-					winner.Chips += _pot.TotalAmount; 
+					Console.WriteLine($"Сумма в поте перед распределением: {pot.TotalAmount}");
+					winner.Chips += pot.TotalAmount; 
 					Console.WriteLine($"Итоговый банк {winner.Name}: {winner.Chips}");
 				}
 				else
@@ -89,7 +94,7 @@ namespace Johny_LastDep.Domain.Models
 						Console.WriteLine($"{winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
 					}
 
-					int amountPerPlayer = _pot.TotalAmount / winners.Count;
+					int amountPerPlayer = pot.TotalAmount / winners.Count;
 					foreach (var winner in winners)
 					{
 						winner.Chips += amountPerPlayer;

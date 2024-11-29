@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            margin: 5px;
+        }
+        input {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Poker Game</h1>
+
+        <div>
+            <h2>Create Room</h2>
+            <input type="text" id="roomNameInput" placeholder="Room Name">
+            <button onclick="createRoom()">Create Room</button>
+        </div>
+
+        <div>
+            <h2>Join Room</h2>
+            <input type="text" id="roomJoinInput" placeholder="Room Name">
+            <input type="text" id="usernameInput" placeholder="Username">
+            <button onclick="joinRoom()">Join Room</button>
+        </div>
+
+        <div>
+            <h2>Available Rooms</h2>
+            <button onclick="getRooms()">Get Rooms</button>
+            <ul id="roomsList"></ul>
+        </div>
+
+        <div id="gameActions" style="display:none;">
+            <h2>Game Actions</h2>
+            <button onclick="startGame()">Start Game</button>
+            <button onclick="bet()">Bet</button>
+            <button onclick="check()">Check</button>
+            <button onclick="fold()">Fold</button>
+            <button onclick="reset()">Reset Game</button>
+        </div>
+
+        <div>
+            <h2>Game State</h2>
+            <pre id="gameState">No game in progress</pre>
+        </div>
+    </div>
+
+    <script>
+        var id = "";
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:5117/game")
+            .build();
+
+        connection.on("Rooms", (data) => {
+            const roomsList = document.getElementById("roomsList");
+            roomsList.innerHTML = '';
+            data.Rooms.forEach(room => {
+                const li = document.createElement("li");
+                li.textContent = room;
+                roomsList.appendChild(li);
+            });
+        });
+
+        connection.on("GameState", (data) => {
+            document.getElementById("gameState").textContent = JSON.stringify(data.gameState, null, 2);
+        });
+
+        connection.on("PlayerBet", (data) => {
+            alert("It's " + data.playerBet.name + "'s turn to bet!");
+        });
+
+        connection.on("Player", (data) => {
+            console.log("Joined as player:", data.player);
+            document.getElementById("gameActions").style.display = "block";
+            id = data.player.id;
+        });
+
+        async function createRoom() {
+            const roomName = document.getElementById("roomNameInput").value;
+            if (roomName) {
+                await connection.invoke("CreateRoom", roomName);
+                alert("Room created: " + roomName);
+            }
+        }
+
+        async function joinRoom() {
+            const roomName = document.getElementById("roomJoinInput").value;
+            const username = document.getElementById("usernameInput").value;
+            if (roomName && username) {
+                await connection.invoke("JoinRoom", roomName, username);
+                alert("Joined room: " + roomName + " as " + username);
+            }
+        }
+
+        async function getRooms() {
+            await connection.invoke("GetRooms");
+        }
+
+        async function startGame() {
+            const roomName = document.getElementById("roomJoinInput").value;
+            if (roomName) {
+                await connection.invoke("StartGame", roomName);
+                alert("Game started in room: " + roomName);
+            }
+        }
+
+        async function bet() {
+            const roomName = document.getElementById("roomJoinInput").value;
+            const username = document.getElementById("usernameInput").value;
+            const chips = prompt("Enter your bet amount:");
+            if (roomName && username && chips) {
+                await connection.invoke("Bet", roomName, id, parseInt(chips));
+                alert(username + " bet " + chips + " chips.");
+            }
+        }
+
+        async function check() {
+            const roomName = document.getElementById("roomJoinInput").value;
+            const username = document.getElementById("usernameInput").value;
+            if (roomName && username) {
+                await connection.invoke("Check", roomName, id);
+                alert(username + " checked.");
+            }
+        }
+
+        async function fold() {
+            const roomName = document.getElementById("roomJoinInput").value;
+            const username = document.getElementById("usernameInput").value;
+            if (roomName && username) {
+                await connection.invoke("Fold", roomName, id);
+                alert(username + " folded.");
+            }
+        }
+
+        async function reset() {
+            const roomName = document.getElementById("roomJoinInput").value;
+            if (roomName) {
+                await connection.invoke("Reset", roomName);
+                alert("Game reset in room: " + roomName);
+            }
+        }
+
+        // Запуск подключения к SignalR
+        connection.start().then(() => {
+            console.log("Connected to SignalR!");
+        }).catch(err => console.error(err));
+
+    </script>
+</body>
+</html>

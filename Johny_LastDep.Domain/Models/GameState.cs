@@ -7,49 +7,48 @@ namespace Johny_LastDep.Domain.Models
 	public class GameState
 	{
 		public int CurrentRound { get; private set; }
+		public int CurrentPlayer { get; private set; }
+		public int InitialPosition { get; private set; }
 		public List<Player> ActivePlayers { get; private set; }
-		public int Pot { get; set; }
-		public List<string> ActionHistory { get; private set; }
 
 		public GameState(List<Player> players)
 		{
 			CurrentRound = 0;
+			InitialPosition = 0;
+			CurrentPlayer = 0;
 			ActivePlayers = new List<Player>(players);
-			Pot = 0;
-			ActionHistory = new List<string>();
 		}
 
 		public void IncrementRound()
 		{
 			CurrentRound++;
-			Console.WriteLine($"Начался раунд {CurrentRound}.");
+			CurrentPlayer = InitialPosition;
 		}
 
-		public void UpdatePot(int amount)
-		{
-			Pot += amount;
-			Console.WriteLine($"Размер банка увеличился на {amount}. Текущий банк: {Pot}");
-		}
-
-		public void AddAction(string action)
-		{
-			ActionHistory.Add(action);
-			Console.WriteLine($"Действие добавлено в историю: {action}");
+		public void Next() {
+			CurrentPlayer++;
+			if (CurrentPlayer >= ActivePlayers.Count()) {
+				CurrentPlayer = 0;
+			}
 		}
 
 		public void RemovePlayer(Player player)
 		{
 			ActivePlayers.Remove(player);
-			Console.WriteLine($"{player.Name} выбыл из игры.");
+			if (InitialPosition >= ActivePlayers.Count()) {
+				InitialPosition--;
+			}
 		}
 
 		public void ResetGameState(List<Player> players)
 		{
-			CurrentRound = 0;
 			ActivePlayers = new List<Player>(players);
-			Pot = 0;
-			ActionHistory.Clear();
-			Console.WriteLine("Состояние игры сброшено.");
+			CurrentRound = 0;
+			InitialPosition++;
+			if (InitialPosition >= ActivePlayers.Count()) {
+				InitialPosition = 0;
+			}
+			CurrentPlayer = InitialPosition;
 		}
 	}
 }

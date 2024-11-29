@@ -10,16 +10,20 @@ namespace Johny_LastDep.Domain.Models
 		public Pot _pot { get; private set; }
 		public List<Player> Players { get; private set; }
 
-		public BettingManager(List<Player> players, Pot pot)
+		public BettingManager(List<Player> players)
 		{
 			Players = players;
-			_pot = pot;
+			_pot = new Pot();
+			CurrentBet = 0;
+		}
+
+		public void Next() {
 			CurrentBet = 0;
 		}
 
 		public void PlaceBet(Player player, int amount)
 		{
-			if (amount < CurrentBet)
+			if (player.CurrentBet + amount < CurrentBet)
 			{
 				throw new ArgumentException("Ставка должна быть больше или равна текущей ставке.");
 			}
@@ -29,10 +33,16 @@ namespace Johny_LastDep.Domain.Models
 				throw new InvalidOperationException("Недостаточно фишек для ставки.");
 			}
 
-			player.Call(amount);
+			player.Bet(amount);
 			_pot.AddBet(amount, player);
-			CurrentBet = amount;
-			Console.WriteLine($"{player.Name} ставит {amount}. Текущий банк: {_pot.TotalAmount}");
+			CurrentBet = player.CurrentBet;
+			Console.WriteLine($"{player.Name} ставит {amount}. Текущий ставка: {CurrentBet}");
+		}
+
+		public void Check(Player player) {
+			if (player.CurrentBet < CurrentBet) {
+				throw new ArgumentException("Повысьте ставку.");
+			}
 		}
 
 		public void HandleAllIn(Player player)
