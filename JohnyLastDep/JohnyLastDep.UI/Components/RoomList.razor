@@ -1,0 +1,19 @@
+﻿@implements IDisposable
+
+<div class="room-list">
+	<div class="room-item">
+		<strong>Room</strong> — 2/4
+	</div>
+</div>
+
+@code {
+	protected override async Task OnInitializedAsync()
+	{
+		// GameClient.OnRoomsUpdated += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		// GameClient.OnRoomsUpdated -= StateHasChanged;
+	}
+}

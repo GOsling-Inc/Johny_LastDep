@@ -6,26 +6,18 @@ namespace JohnyLastDep.Domain.Models
 	{
 		public List<Player> Players { get; private set; }
 		public int DealerPosition { get; private set; }
-		public int SmallBlind { get; private set; }
-		public int BigBlind { get; private set; }
-		public int MinimumBet { get; private set; }
-		public int MaximumBet { get; private set; }
 		public List<Card> CommunityCards { get; private set; }
 
-		public Table(List<Player> players, int dealerPosition, int smallBlind, int bigBlind, int minimumBet, int maximumBet)
+		public Table(List<Player> players, int dealerPosition)
 		{
 			Players = players;
 			DealerPosition = dealerPosition;
-			SmallBlind = smallBlind;
-			BigBlind = bigBlind;
-			MinimumBet = minimumBet;
-			MaximumBet = maximumBet;
-			CommunityCards = new List<Card>();
+			CommunityCards = [];
 		}
 
 		public void AddCommunityCard(Card card)
 		{
-			if (CommunityCards.Count < 5) 
+			if (CommunityCards.Count < 5)
 			{
 				CommunityCards.Add(card);
 			}

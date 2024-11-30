@@ -1,0 +1,40 @@
+﻿@implements IDisposable
+
+<div>
+	<EditForm Model="@createRoomModel" OnValidSubmit="@CreateRoom" class="add-room-form">
+		<DataAnnotationsValidator />
+
+		<div>
+			<label>Room name:</label>
+			<InputText @bind-Value="createRoomModel.RoomName" placeholder="Enter room name" type="text" />
+			<ValidationMessage For="@(() => createRoomModel.RoomName)" />
+		</div>
+
+		<button type="submit" class="btn-primary" disabled="@(() => string.IsNullOrEmpty(PlayerName.Name))">Create Room</button>
+	</EditForm>
+</div>
+
+@code {
+	[Parameter]
+	public PlayerName PlayerName { get; set; } = new PlayerName();
+
+	private CreateRoom createRoomModel = new CreateRoom();
+
+	protected override async Task OnInitializedAsync()
+	{
+		// GameClient.OnRoomsUpdated += StateHasChanged;
+	}
+
+	public void Dispose()
+	{
+		// GameClient.OnRoomsUpdated -= StateHasChanged;
+	}
+
+	private async Task CreateRoom()
+	{
+		if (!string.IsNullOrEmpty(PlayerName.Name) && !string.IsNullOrEmpty(createRoomModel.RoomName))
+		{
+			Console.WriteLine("Lobby_CreateRoom");
+		}
+	}
+}

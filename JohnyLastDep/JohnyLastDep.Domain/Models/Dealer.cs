@@ -6,20 +6,15 @@ namespace JohnyLastDep.Domain.Models
 	{
 		private Deck _deck;
 		private Table _table;
-		public Pot _pot { get; private set; }
-
-		public Dealer(Table table, Pot pot)
+		public Dealer(Table table)
 		{
 			_table = table;
-			_pot = pot;
 			_deck = new Deck();
 		}
-
 		public void ShuffleDeck()
 		{
 			_deck.Shuffle();
 		}
-
 		public void DealInitialCards()
 		{
 			foreach (var player in _table.Players)
@@ -29,16 +24,24 @@ namespace JohnyLastDep.Domain.Models
 				Console.WriteLine($"{player.Name} получает: {player.HandCards[0]} и {player.HandCards[1]}");
 			}
 		}
-
-		public void DealCommunityCards(int numberOfCards)
+		public void DealCards(int round)
 		{
+			var numberOfCards = 1;
+			if (round == 1)
+			{
+				DealInitialCards();
+				return;
+			}
+			else if (round == 2)
+			{
+				numberOfCards = 3;
+			}
 			for (int i = 0; i < numberOfCards; i++)
 			{
 				var card = _deck.Deal();
 				_table.AddCommunityCard(card);
 			}
 		}
-
 		public List<Player> DetermineWinner(List<Player> players)
 		{
 			var evaluator = new HandEvaluator();
@@ -53,7 +56,7 @@ namespace JohnyLastDep.Domain.Models
 				if (winningHand == null || Hand.CompareHands(playerHand, winningHand) > 0)
 				{
 					winningHand = playerHand;
-					winners.Clear(); 
+					winners.Clear();
 					winners.Add(player);
 				}
 				else if (winningHand != null && Hand.CompareHands(playerHand, winningHand) == 0)
@@ -64,18 +67,16 @@ namespace JohnyLastDep.Domain.Models
 
 			return winners;
 		}
-
 		public void DistributeWinnings(List<Player> winners, Pot pot)
 		{
-			_pot = pot;
 			if (winners.Count > 0)
 			{
 				if (winners.Count == 1)
 				{
 					Player winner = winners[0];
 					Console.WriteLine($"Победитель: {winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
-					Console.WriteLine($"Сумма в поте перед распределением: {_pot.TotalAmount}");
-					winner.Chips += _pot.TotalAmount; 
+					Console.WriteLine($"Сумма в поте перед распределением: {pot.TotalAmount}");
+					winner.Chips += pot.TotalAmount;
 					Console.WriteLine($"Итоговый банк {winner.Name}: {winner.Chips}");
 				}
 				else
@@ -86,7 +87,7 @@ namespace JohnyLastDep.Domain.Models
 						Console.WriteLine($"{winner.Name} с рукой: {string.Join(", ", winner.HandCards.Select(card => card.ToString()))}!");
 					}
 
-					int amountPerPlayer = _pot.TotalAmount / winners.Count;
+					int amountPerPlayer = pot.TotalAmount / winners.Count;
 					foreach (var winner in winners)
 					{
 						winner.Chips += amountPerPlayer;

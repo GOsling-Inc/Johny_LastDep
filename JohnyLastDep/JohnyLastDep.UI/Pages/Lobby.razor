@@ -1,0 +1,26 @@
+﻿@page "/"
+
+<PageTitle>Lobby</PageTitle>
+
+<div class="game-logo">
+	<div>
+		<h1>Johny Last Dep</h1>
+		<h3>❤︎Your favourite pocker❤︎</h3>
+	</div>
+</div>
+<PlayerNameInput PlayerName="playerName" />
+<div class="lobby-content">
+	<div>
+		<h2>Room List</h2>
+		<RoomList />
+	</div>
+	<div>
+		<h2>Create Room</h2>
+		<AddRoom PlayerName="playerName"/>
+	</div>
+</div>
+
+@code {
+	private PlayerName playerName = new PlayerName();
+}
+

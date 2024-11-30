@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JohnyLastDep.Domain", "JohnyLastDep.Domain\JohnyLastDep.Domain.csproj", "{6CBAF34B-BDE0-483F-A7FA-3797236FEC51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JohnyLastDep.Domain", "JohnyLastDep.Domain\JohnyLastDep.Domain.csproj", "{6CBAF34B-BDE0-483F-A7FA-3797236FEC51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JohnyLastDep.UI", "JohnyLastDep.UI\JohnyLastDep.UI.csproj", "{865B72C1-9F81-4E30-9A0F-FD2F2C09BB27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JohnyLastDep.UI", "JohnyLastDep.UI\JohnyLastDep.UI.csproj", "{865B72C1-9F81-4E30-9A0F-FD2F2C09BB27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JohnyLastDep.Server", "JohnyLastDep.Server\JohnyLastDep.Server.csproj", "{C18852EE-7509-4888-9F1D-E3E71B2D5413}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{865B72C1-9F81-4E30-9A0F-FD2F2C09BB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{865B72C1-9F81-4E30-9A0F-FD2F2C09BB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{865B72C1-9F81-4E30-9A0F-FD2F2C09BB27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C18852EE-7509-4888-9F1D-E3E71B2D5413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C18852EE-7509-4888-9F1D-E3E71B2D5413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C18852EE-7509-4888-9F1D-E3E71B2D5413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C18852EE-7509-4888-9F1D-E3E71B2D5413}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

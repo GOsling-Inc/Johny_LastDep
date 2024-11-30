@@ -7,17 +7,19 @@ namespace JohnyLastDep.Domain.Models
 		public int CurrentBet { get; private set; }
 		public Pot _pot { get; private set; }
 		public List<Player> Players { get; private set; }
-
-		public BettingManager(List<Player> players, Pot pot)
+		public BettingManager(List<Player> players)
 		{
 			Players = players;
-			_pot = pot;
+			_pot = new Pot();
 			CurrentBet = 0;
 		}
-
+		public void Next()
+		{
+			CurrentBet = 0;
+		}
 		public void PlaceBet(Player player, int amount)
 		{
-			if (amount < CurrentBet)
+			if (player.CurrentBet + amount < CurrentBet)
 			{
 				throw new ArgumentException("Ставка должна быть больше или равна текущей ставке.");
 			}
@@ -27,27 +29,32 @@ namespace JohnyLastDep.Domain.Models
 				throw new InvalidOperationException("Недостаточно фишек для ставки.");
 			}
 
-			player.Call(amount);
+			player.Bet(amount);
 			_pot.AddBet(amount, player);
-			CurrentBet = amount;
-			Console.WriteLine($"{player.Name} ставит {amount}. Текущий банк: {_pot.TotalAmount}");
+			CurrentBet = player.CurrentBet;
+			Console.WriteLine($"{player.Name} ставит {amount}. Текущий ставка: {CurrentBet}");
 		}
-
+		public void Check(Player player)
+		{
+			if (player.CurrentBet < CurrentBet)
+			{
+				throw new ArgumentException("Повысьте ставку.");
+			}
+		}
 		public void HandleAllIn(Player player)
 		{
 			int allInAmount = player.Chips;
 			PlaceBet(player, allInAmount);
 			Console.WriteLine($"{player.Name} идет ол-ин на {allInAmount}.");
 		}
-
 		public void ResetBets()
 		{
 			foreach (var player in Players)
 			{
-				player.CurrentBet = 0; 
+				player.CurrentBet = 0;
 			}
-			_pot = new Pot(); 
-			CurrentBet = 0; 
+			_pot = new Pot();
+			CurrentBet = 0;
 		}
 	}
 }

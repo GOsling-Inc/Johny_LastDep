@@ -1,0 +1,16 @@
+﻿<div class="name-input-cont">
+	<h3>Enter your name</h3>
+	<EditForm class="player-name-input" Model="@PlayerName">
+		<DataAnnotationsValidator />
+		<div>
+			<label>Player Name:</label>
+			<InputText @bind-Value="PlayerName.Name" placeholder="Enter player name" type="text" />
+			<ValidationMessage For="@(() => PlayerName.Name)" />
+		</div>
+	</EditForm>
+</div>
+
+@code {
+	[Parameter]
+	public PlayerName PlayerName { get; set; } = new PlayerName();
+}
