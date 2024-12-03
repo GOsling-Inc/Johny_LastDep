@@ -2,111 +2,123 @@
 using JohnyLastDep.Domain.Models;
 using JohnyLastDep.Domain.Interfaces;
 using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
 
 namespace JohnyLastDep.Server
 {
-	public class Room
-	{
-		public List<Player> Players = [];
-		public PokerGame game = new([]);
-	}
 	public class GameHub : Hub<IGameClient>, IGameHub
 	{
-		private static Dictionary<string, Room> rooms = [];
+		private static Dictionary<string, GameRoom> rooms = [];
 
 		public GameHub() {}
-		public async Task CreateRoom(string roomName)
+		public async Task CreateRoom(string roomName, string playerName)
 		{
-			rooms.Add(roomName, new Room());
-			await Clients.All.ReceiveRooms(rooms.Keys);
+			rooms.Add(roomName, new GameRoom());
+			await JoinRoom(roomName, playerName);
 		}
 		public async Task GetRooms()
 		{
-			await Clients.Caller.ReceiveRooms(rooms.Keys);
+			await Clients.Caller.ReceiveRooms(rooms);
 		}
-		public async Task JoinRoom(string roomName, string username)
+		public async Task UpdateRooms()
 		{
-			if (rooms.ContainsKey(roomName))
-			{
-				await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
-
-				var player = new Player(username, 1000);
-				rooms[roomName].Players.Add(player);
-				rooms[roomName].game.Players.Add(player);
-				await Clients.Caller.ReceivePlayer(player);
-				await Clients.Group(roomName).ReceiveGameState(rooms[roomName].game);
-			}
+			await Clients.All.ReceiveRooms(rooms);
 		}
-		public async Task LeaveRoom(string roomName, string userid)
+		public async Task JoinRoom(string roomName, string userName)
 		{
-			if (rooms.ContainsKey(roomName))
-			{
-				await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+			if (!rooms.ContainsKey(roomName)) return;
+			await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+			var player = new Player(Context.ConnectionId, userName, 1000);
+			rooms[roomName].Players.Add(player);
+			Console.WriteLine("After");
+			await Clients.Caller.ReceivePlayer(player);
+			await UpdateRooms();
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+		}
+		public async Task LeaveRoom(string roomName, string userId)
+		{
+			if (!rooms.ContainsKey(roomName)) return;
+			await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+			var player = rooms[roomName].Players.Where((p) => p.Id == userId).First();
+			rooms[roomName].Players.Remove(player);
+			rooms[roomName].Game.Players.Remove(player);
+			if (player.IsReady) rooms[roomName].IsReady -= 1;
+			await UpdateRooms();
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+			await Clients.Caller.ReceivePlayer(null);
 
-				rooms[roomName].Players.Remove(rooms[roomName].Players.Where((p) => p.Id == userid).First());
+		}
 
-				await Clients.Group(roomName).ReceiveGameState(rooms[roomName].game);
-			}
+		public async Task SetReady(string roomName, string userId, bool IsReady)
+		{
+			if (!rooms.ContainsKey(roomName)) return;
+			var player = rooms[roomName].Players.Where((p) => p.Id == userId).First();
+			player.IsReady = IsReady;
+			await Clients.Caller.ReceivePlayer(player);
+			rooms[roomName].IsReady += IsReady ? 1 : -1;
+			await UpdateRooms();
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
 		}
 		public async Task StartGame(string roomName)
 		{
-			if (rooms.ContainsKey(roomName))
-			{
-				rooms[roomName].game = new PokerGame(rooms[roomName].Players);
-
-				rooms[roomName].game.StartGame();
-
-				await Clients.Group(roomName).ReceiveGameState(rooms[roomName].game);
-
-				await Clients.Group(roomName).ReceiveBettingPlayer(rooms[roomName].game.getBettingPlayer());
-			}
+			if (!rooms.ContainsKey(roomName)) return;
+			rooms[roomName].Game = new PokerGame(rooms[roomName].Players);
+			rooms[roomName].Game.StartGame();
+			var currentPlayer = rooms[roomName].Game.GetBettingPlayer();
+			rooms[roomName].CurrentPlayer = currentPlayer;
+			await UpdateRooms();
+			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, currentPlayer);
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
 		}
 		public async Task GetBettingPlayer(string roomName)
 		{
-			await Clients.Group(roomName).ReceiveBettingPlayer(rooms[roomName].game.getBettingPlayer());
+			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
 		}
-		public async Task Bet(string roomName, string userid, int chips)
-		{
-			if (rooms.ContainsKey(roomName))
-			{
-				rooms[roomName].game.Bet(userid, chips);
 
-				await Clients.Group(roomName).ReceiveGameState(rooms[roomName].game);
-				await Clients.Group(roomName).ReceiveBettingPlayer(rooms[roomName].game.getBettingPlayer());
+		public async Task UpdateRoomPlayers(string roomName)
+		{
+			foreach(var player in rooms[roomName].Players)
+			{
+				await Clients.Client(player.Id).ReceivePlayer(player);
 			}
+		}
+		public async Task Bet(string roomName, string userId, int chips)
+		{
+			if (!rooms.ContainsKey(roomName)) return;
+			rooms[roomName].Game.Bet(userId, chips);
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+			await Clients.Group(roomName).ReceiveRooms(rooms);
+			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
+			await UpdateRoomPlayers(roomName);
 		}
 		public async Task Check(string roomName, string userid)
 		{
-			if (rooms.ContainsKey(roomName))
-			{
-				rooms[roomName].game.Check(userid);
-
-				await Clients.Group(roomName).ReceiveGameState(rooms[roomName].game);
-				await Clients.Group(roomName).ReceiveBettingPlayer(rooms[roomName].game.getBettingPlayer());
-			}
+			if (!rooms.ContainsKey(roomName)) return;
+			rooms[roomName].Game.Check(userid);
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+			await Clients.Group(roomName).ReceiveRooms(rooms);
+			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
+			await UpdateRoomPlayers(roomName);
 		}
 		public async Task Fold(string roomName, string userid)
 		{
-			if (rooms.ContainsKey(roomName))
-			{
-				rooms[roomName].game.Fold(userid);
-
-				await Clients.Group(roomName).ReceiveGameState(rooms[roomName].game);
-				await Clients.Group(roomName).ReceiveBettingPlayer(rooms[roomName].game.getBettingPlayer());
-			}
+			if (!rooms.ContainsKey(roomName)) return;
+			rooms[roomName].Game.Fold(userid);
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+			await Clients.Group(roomName).ReceiveRooms(rooms);
+			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
+			await UpdateRoomPlayers(roomName);
 		}
 		public async Task Reset(string roomName)
 		{
 			if (rooms.ContainsKey(roomName))
 			{
-				rooms[roomName].game.ResetGame();
-
-				rooms[roomName].game.StartGame();
-
-				await Clients.Group(roomName).ReceiveGameState(rooms[roomName].game);
-
-				await Clients.Group(roomName).ReceiveBettingPlayer(rooms[roomName].game.getBettingPlayer());
+				rooms[roomName].IsReady = 0;
+				rooms[roomName].CurrentPlayer = null;
+				rooms[roomName].Game.ResetGame();
+				await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+				await Clients.Group(roomName).ReceiveBettingPlayer(roomName, null);
+				await UpdateRoomPlayers(roomName);
+				await UpdateRooms();
 			}
 		}
 

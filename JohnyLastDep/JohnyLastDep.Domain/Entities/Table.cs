@@ -4,15 +4,16 @@ namespace JohnyLastDep.Domain.Models
 {
 	public class Table
 	{
-		public List<Player> Players { get; private set; }
-		public int DealerPosition { get; private set; }
-		public List<Card> CommunityCards { get; private set; }
+		public List<Player> Players { get; set; } = new List<Player>();
+		public int DealerPosition { get; set; } = 0;
+		public List<Card> CommunityCards { get; set; } = new List<Card>();
 
+		public Table() { }
 		public Table(List<Player> players, int dealerPosition)
 		{
 			Players = players;
 			DealerPosition = dealerPosition;
-			CommunityCards = [];
+			CommunityCards = new List<Card>();
 		}
 
 		public void AddCommunityCard(Card card)
@@ -20,10 +21,6 @@ namespace JohnyLastDep.Domain.Models
 			if (CommunityCards.Count < 5)
 			{
 				CommunityCards.Add(card);
-			}
-			else
-			{
-				throw new InvalidOperationException("Нельзя добавлять больше 5 общих карт.");
 			}
 		}
 
@@ -37,7 +34,7 @@ namespace JohnyLastDep.Domain.Models
 			DealerPosition = (DealerPosition + 1) % Players.Count;
 		}
 
-		public void DisplayCommunityCards()
+		public void ShowCommunityCards()
 		{
 			Console.WriteLine($"Общие карты: {string.Join(", ", CommunityCards)}");
 		}

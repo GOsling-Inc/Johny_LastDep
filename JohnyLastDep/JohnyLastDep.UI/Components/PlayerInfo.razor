@@ -1,0 +1,175 @@
+﻿@implements IDisposable
+<div class="player-info @Position" style="@(!ShowCards ? $"{Position}: -{(Position == "top" ? "7" : "4")}.5%" : "")">
+	@if(Info is null || room is null)
+	{
+		<div class="main-info">
+			<p>Can't fetch player info.</p>
+		</div>
+	} else
+	{
+		@if(ShowCards)
+		{
+			<div class="player-cards @Position">
+				<img src=@((Position != "" || Info.HandCards.Count != 2) && room.Game.GameState.CurrentRound != 5
+					? "/images/card-bg.png" : $"/images/cards/{Info.HandCards[0].ToString()}.svg") alt="" width="150" height="200" />
+				<img src=@((Position != "" || Info.HandCards.Count != 2) && room.Game.GameState.CurrentRound != 5
+					? "/images/card-bg.png" : $"/images/cards/{Info.HandCards[1].ToString()}.svg") alt="" width="150" height="200" />
+			</div>
+		}
+		<div class="main-info">
+			<p>Player: @Info.Name</p>
+			<p>Chips: @Info.Chips</p>
+		</div>
+		@if(Position.Length == 0)
+		{
+			<div class="player-actions">
+				@if (room.CurrentPlayer is null)
+				{
+					@if (room.Players.Count > 1)
+					{
+						@if(Info.IsReady)
+						{
+							<button type="button" class="btn-action red" 
+								onclick="@(() => SetReady(Info.Id, false))">Not Ready</button>
+						} 
+						else
+						{
+							<button type="button" class="btn-action"
+									onclick="@(() => SetReady(Info.Id))">
+								Ready
+							</button>
+						}
+					}
+					<button type="button" class="btn-action" onclick="@(() => LeaveRoom(Info.Id))">Leave Room</button>
+				}
+				else if(room.CurrentPlayer.Id == Info.Id && room.Game.GameState.CurrentRound != 5)
+				{
+					<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px;">
+						@if (Info.Chips > 0 && (Info.CurrentBet < room.Game.BettingManager.CurrentBet || room.Game.BettingManager.CurrentBet == 0))
+						{
+							<button type="button" class="btn-action" onclick="@(() => Bet())">Bet @CountBet()</button>
+						} else
+						{
+							<div></div>
+						}					
+						<div style="display: flex; flex-direction: column; gap: 10px;">
+							@if (room.Game.GameState.CurrentRound > 0)
+							{
+								@if (Info.CurrentBet >= room.Game.BettingManager.CurrentBet)
+								{
+									<button type="button" class="btn-action" onclick="@(() => Check())">Check</button>
+								}
+								<button type="button" class="btn-action">Fold</button>
+							}
+						</div>
+					</div>
+				}
+			</div>
+		}
+	}
+</div>
+
+
+@code {
+	[Parameter]
+	public string RoomName { get; set; } = "";
+
+	[Parameter]
+	public string Position { get; set; } = "";
+
+	[Parameter]
+	public Player? Info { get; set; } = null;
+
+	private GameRoom? room;
+
+	private bool ShowCards = false;
+
+	private int PlayerBet = 0;
+
+	[Inject]
+	public GameClient GameClient { get; set; }
+
+	[Inject]
+	public NavigationManager NavigationManager { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		GameClient.OnPlayerUpdated += CheckPlayer;
+		GameClient.OnGameStateUpdated += GetInfo;
+		GetInfo(RoomName);
+	}
+
+	private void CheckPlayer()
+	{
+		if (Info is null || Info.Id == GameClient.Player?.Id)
+			Info = GameClient.Player;
+		ShowCards = room != null && room.CurrentPlayer != null && room.Game.GameState.CurrentRound != 0;
+		StateHasChanged();
+	}
+
+	private void GetInfo(string roomName)
+	{
+
+		room = GameClient.Rooms.GetValueOrDefault(roomName);
+		CheckPlayer();
+	}
+
+	public async void Dispose()
+	{
+		GameClient.OnPlayerUpdated -= CheckPlayer;
+		GameClient.OnGameStateUpdated -= GetInfo;
+	}
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+	}
+
+	private async void SetReady(string Id, bool IsReady = true)
+	{
+		if (Info is null || room is null) return;
+		await GameClient.SetReady(RoomName, Id, IsReady);
+		await StartGame();
+	}
+
+	private async void LeaveRoom(string Id)
+	{
+		if (Info is null) return;
+		await GameClient.LeaveRoom(RoomName, Id);
+		NavigationManager.NavigateTo("/");
+	}
+
+	private async Task StartGame()
+	{
+		await Task.Delay(3000);
+		if (room is null || room.IsReady != room.Players.Count) return;
+		await GameClient.StartGame(RoomName);
+	}
+
+	private int CountBet()
+	{
+		if(room.Game.BettingManager.CurrentBet == 0)
+			PlayerBet = Info.Chips < 50 ? Info.Chips : 50;
+		else 
+			PlayerBet = room.Game.BettingManager.CurrentBet - Info.CurrentBet;
+		return PlayerBet;
+	}
+
+	private async void Bet()
+	{
+		if (Info is null || room is null) return;
+		await GameClient.Bet(RoomName, Info.Id, PlayerBet);
+	}
+
+	private async void Check()
+	{
+		if (Info is null || room is null) return;
+		await GameClient.Check(RoomName, Info.Id);
+	}
+
+	private async void Fold()
+	{
+		if (Info is null || room is null) return;
+		await GameClient.Fold(RoomName, Info.Id);
+	}
+}

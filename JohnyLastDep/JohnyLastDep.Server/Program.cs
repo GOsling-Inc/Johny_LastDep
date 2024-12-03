@@ -20,7 +20,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.UseCors(); // Должно быть перед UseEndpoints
+app.UseCors();
 
 app.MapHub<GameHub>("/game");
 

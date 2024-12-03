@@ -10,31 +10,45 @@
 			<ValidationMessage For="@(() => createRoomModel.RoomName)" />
 		</div>
 
-		<button type="submit" class="btn-primary" disabled="@(() => string.IsNullOrEmpty(PlayerName.Name))">Create Room</button>
+		<button type="submit" class="btn-primary" disabled="@IsDisabled">Create Room</button>
 	</EditForm>
 </div>
 
 @code {
+	[Inject]
+	public GameClient GameClient { get; set; }
+
+	[Inject]
+	public NavigationManager NavigationManager { get; set; }
+
 	[Parameter]
 	public PlayerName PlayerName { get; set; } = new PlayerName();
 
+	[Parameter]
+	public bool HasName { get; set; } = false;
+
 	private CreateRoom createRoomModel = new CreateRoom();
+
+	private bool IsDisabled => !HasName || string.IsNullOrEmpty(createRoomModel.RoomName)
+	|| (!string.IsNullOrEmpty(createRoomModel.RoomName) && GameClient.Rooms.ContainsKey(createRoomModel.RoomName));
 
 	protected override async Task OnInitializedAsync()
 	{
-		// GameClient.OnRoomsUpdated += StateHasChanged;
+		GameClient.OnRoomsUpdated += StateHasChanged;
 	}
 
 	public void Dispose()
 	{
-		// GameClient.OnRoomsUpdated -= StateHasChanged;
+		GameClient.OnRoomsUpdated -= StateHasChanged;
 	}
 
 	private async Task CreateRoom()
 	{
-		if (!string.IsNullOrEmpty(PlayerName.Name) && !string.IsNullOrEmpty(createRoomModel.RoomName))
+		if (!IsDisabled)
 		{
-			Console.WriteLine("Lobby_CreateRoom");
+			Console.WriteLine("create");
+			await GameClient.CreateRoom(createRoomModel.RoomName, PlayerName.Name);
+			NavigationManager.NavigateTo($"/room/{createRoomModel.RoomName}");
 		}
 	}
 }

@@ -6,6 +6,8 @@ namespace JohnyLastDep.Domain.Models
 	{
 		private Deck _deck;
 		private Table _table;
+
+		public Dealer() { }
 		public Dealer(Table table)
 		{
 			_table = table;
@@ -41,6 +43,7 @@ namespace JohnyLastDep.Domain.Models
 				var card = _deck.Deal();
 				_table.AddCommunityCard(card);
 			}
+			_table.ShowCommunityCards();
 		}
 		public List<Player> DetermineWinner(List<Player> players)
 		{

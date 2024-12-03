@@ -4,13 +4,14 @@ namespace JohnyLastDep.Domain.Models
 {
 	public class BettingManager
 	{
-		public int CurrentBet { get; private set; }
-		public Pot _pot { get; private set; }
-		public List<Player> Players { get; private set; }
+		public int CurrentBet { get; set; } = 0;
+		public Pot Pot { get; set; } = new Pot();
+		public List<Player> Players { get; set; }
+		public BettingManager() { }
 		public BettingManager(List<Player> players)
 		{
 			Players = players;
-			_pot = new Pot();
+			Pot = new Pot();
 			CurrentBet = 0;
 		}
 		public void Next()
@@ -30,7 +31,7 @@ namespace JohnyLastDep.Domain.Models
 			}
 
 			player.Bet(amount);
-			_pot.AddBet(amount, player);
+			Pot.AddBet(amount, player);
 			CurrentBet = player.CurrentBet;
 			Console.WriteLine($"{player.Name} ставит {amount}. Текущий ставка: {CurrentBet}");
 		}
@@ -53,7 +54,7 @@ namespace JohnyLastDep.Domain.Models
 			{
 				player.CurrentBet = 0;
 			}
-			_pot = new Pot();
+			Pot = new Pot();
 			CurrentBet = 0;
 		}
 	}

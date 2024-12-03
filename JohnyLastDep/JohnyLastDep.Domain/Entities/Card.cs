@@ -7,6 +7,8 @@ namespace JohnyLastDep.Domain.Entities
 		public Suit Suit { get; set; }
 		public Rank Rank { get; set; }
 
+		public Card() { }
+
 		public Card(Suit suit, Rank rank)
 		{
 			Suit = suit;
@@ -15,9 +17,9 @@ namespace JohnyLastDep.Domain.Entities
 
 		public override string ToString()
 		{
-			string[] suits = { "♣", "♦", "♥", "♠" };
-			string[] ranks = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
-			return $"{ranks[(int)Rank - 2]}{suits[(int)Suit]}";
+			string[] suits = ["♣", "♦", "♥", "♠"];
+			string[] ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"];
+			return $"{ranks[(int)Rank - 2]}_of_{Suit.ToString().ToLower()}";
 		}
 
 		public static bool operator >(Card card1, Card card2)

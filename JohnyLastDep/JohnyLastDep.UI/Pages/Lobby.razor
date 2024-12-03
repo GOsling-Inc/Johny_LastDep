@@ -2,25 +2,39 @@
 
 <PageTitle>Lobby</PageTitle>
 
-<div class="game-logo">
-	<div>
-		<h1>Johny Last Dep</h1>
-		<h3>❤︎Your favourite pocker❤︎</h3>
+<div style="padding: 1% 2%;">
+	<div class="game-logo">
+		<div>
+			<h1>Johny Last Dep</h1>
+			<h3>❤︎Your favourite pocker❤︎</h3>
+		</div>
 	</div>
-</div>
-<PlayerNameInput PlayerName="playerName" />
-<div class="lobby-content">
-	<div>
-		<h2>Room List</h2>
-		<RoomList />
-	</div>
-	<div>
-		<h2>Create Room</h2>
-		<AddRoom PlayerName="playerName"/>
+	<PlayerNameInput PlayerName="playerName" OnNameChanged="onNameChanged" />
+	<div class="lobby-content">
+		<div>
+			<h2>Room List</h2>
+			<RoomList PlayerName="playerName" HasName="hasName"/>
+		</div>
+		<div>
+			<h2>Create Room</h2>
+			<AddRoom PlayerName="playerName" HasName="hasName"/>
+		</div>
 	</div>
 </div>
 
 @code {
 	private PlayerName playerName = new PlayerName();
+
+	private bool hasName { get; set; } = false;
+
+	private void onNameChanged()
+	{
+		hasName = !string.IsNullOrEmpty(playerName.Name);
+		if(hasName)
+		{
+			Console.WriteLine("has name");
+			StateHasChanged();
+		}
+	}
 }
 

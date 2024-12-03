@@ -4,15 +4,13 @@ namespace JohnyLastDep.Domain.Models
 {
 	public class Pot
 	{
-		public int TotalAmount { get; private set; }
-		public List<Player> Participants { get; private set; }
-		public List<SidePot> SidePots { get; private set; }
+		public int TotalAmount { get; set; } = 0;
+		public List<Player> Participants { get; set; } = new List<Player>();
 
 		public Pot()
 		{
 			TotalAmount = 0;
 			Participants = new List<Player>();
-			SidePots = new List<SidePot>();
 		}
 
 		public void AddBet(int betAmount, Player player)
@@ -23,24 +21,24 @@ namespace JohnyLastDep.Domain.Models
 			}
 
 			TotalAmount += betAmount;
-
+			Console.WriteLine($"Общий банк: {TotalAmount}");
 			if (!Participants.Contains(player))
 			{
 				Participants.Add(player);
 			}
 		}
 
-		public SidePot CreateSidePot(int sidePotAmount, List<Player> contributors)
-		{
-			if (sidePotAmount <= 0)
-			{
-				throw new ArgumentException("Side pot amount must be greater than zero.");
-			}
+		//public SidePot CreateSidePot(int sidePotAmount, List<Player> contributors)
+		//{
+		//	if (sidePotAmount <= 0)
+		//	{
+		//		throw new ArgumentException("Side pot amount must be greater than zero.");
+		//	}
 
-			var sidePot = new SidePot(sidePotAmount, contributors);
-			SidePots.Add(sidePot);
-			return sidePot;
-		}
+		//	var sidePot = new SidePot(sidePotAmount, contributors);
+		//	SidePots.Add(sidePot);
+		//	return sidePot;
+		//}
 
 		public void DistributeWinnings(Dictionary<Player, int> winnings)
 		{
@@ -60,17 +58,17 @@ namespace JohnyLastDep.Domain.Models
 			return Participants;
 		}
 
-		public List<SidePot> GetSidePots()
-		{
-			return SidePots;
-		}
+		//public List<SidePot> GetSidePots()
+		//{
+		//	return SidePots;
+		//}
 	}
 
 	public class SidePot
 	{
 		public int Amount { get; private set; }
 		public List<Player> Contributors { get; private set; }
-
+		public SidePot() { }
 		public SidePot(int amount, List<Player> contributors)
 		{
 			Amount = amount;

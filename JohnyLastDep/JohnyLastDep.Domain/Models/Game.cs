@@ -9,7 +9,9 @@ namespace JohnyLastDep.Domain.Models
 		public Dealer Dealer { get; set; }
 		public BettingManager BettingManager { get; set; }
 		public GameState GameState { get; set; }
-		public List<Player> Winners { get; set; }
+		public List<Player> Winners { get; set; } = new List<Player>();
+
+		public PokerGame() { }
 
 		public PokerGame(List<Player> players)
 		{
@@ -18,7 +20,7 @@ namespace JohnyLastDep.Domain.Models
 			Dealer = new Dealer(GameTable);
 			BettingManager = new BettingManager(Players);
 			GameState = new GameState(Players);
-			Winners = [];
+			Winners = new List<Player>();
 		}
 
 		public void StartGame()
@@ -26,7 +28,7 @@ namespace JohnyLastDep.Domain.Models
 			Dealer.ShuffleDeck();
 		}
 
-		public Player getBettingPlayer()
+		public Player GetBettingPlayer()
 		{
 			return GameState.ActivePlayers[GameState.CurrentPlayer];
 		}
@@ -60,7 +62,8 @@ namespace JohnyLastDep.Domain.Models
 
 		public void Fold(string id)
 		{
-			GameState.RemovePlayer(Players.Find((p) => p.Id == id)!);
+			var player = Players.Find((p) => p.Id == id)!;
+			GameState.RemovePlayer(player);
 			GameState.Next();
 			if (GameState.CurrentPlayer == GameState.InitialPosition)
 			{
@@ -77,10 +80,11 @@ namespace JohnyLastDep.Domain.Models
 			GameState.IncrementRound();
 			BettingManager.Next();
 			Dealer.DealCards(GameState.CurrentRound);
-			if (GameState.CurrentRound == 4 || GameState.ActivePlayers.Count() < 2)
+			Console.WriteLine($"Round: {GameState.CurrentRound}");
+			if (GameState.CurrentRound == 5 || GameState.ActivePlayers.Count() < 2)
 			{
-				Winners = Dealer.DetermineWinner(Players);
-				Dealer.DistributeWinnings(Winners, BettingManager._pot);
+				Winners = Dealer.DetermineWinner(GameState.ActivePlayers);
+				Dealer.DistributeWinnings(Winners, BettingManager.Pot);
 			}
 		}
 

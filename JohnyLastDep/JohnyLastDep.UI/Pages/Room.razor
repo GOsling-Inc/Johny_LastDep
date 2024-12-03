@@ -1,12 +1,54 @@
-﻿@page "/room/{RoomId}"
+﻿@page "/room/{RoomName}"
+@implements IDisposable
 
-<PageTitle>Room @RoomId</PageTitle>
+<PageTitle>Room</PageTitle>
 
 <div class="room">
-	room @RoomId
+	<PlayerInfo RoomName="@RoomName"/>
+	<GameField RoomName="@RoomName" />
+	@for(var i = 0; i < opponents.Count; ++i)
+	{
+		<PlayerInfo RoomName="@RoomName" Position="@positon[i]" Info="@opponents[i]"/>
+	}
 </div>
 
 @code {
+	[Inject]
+	public GameClient GameClient { get; set; }
+
+	[Inject]
+	public NavigationManager NavigationManager { get; set; }
+
 	[Parameter]
-	public string RoomId { get; set; }
+	public string RoomName { get; set; }
+
+	private List<string> positon = ["left", "top", "right"];
+
+	private List<Player> opponents = [];
+
+	protected override async Task OnInitializedAsync()
+	{
+		GameClient.OnGameStateUpdated += UpdateOpponents;
+		// if (!GameClient.Rooms.ContainsKey(RoomName))
+		// {
+		// 	NavigationManager.NavigateTo("/");
+		// 	return;
+		// }
+
+		UpdateOpponents(RoomName);
+	}
+
+	private void UpdateOpponents(string roomName)
+	{
+		if (GameClient.Rooms.ContainsKey(roomName) && GameClient.Player != null)
+		{
+			opponents = GameClient.Rooms[roomName].Players.FindAll(p => p.Id != GameClient.Player.Id);
+			StateHasChanged();
+		}
+	}
+
+	public async void Dispose()
+	{
+		GameClient.OnGameStateUpdated -= UpdateOpponents;
+	}
 }

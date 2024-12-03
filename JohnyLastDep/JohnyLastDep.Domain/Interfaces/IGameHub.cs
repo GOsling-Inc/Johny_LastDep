@@ -1,10 +1,12 @@
-﻿namespace JohnyLastDep.Domain.Interfaces
+﻿using JohnyLastDep.Domain.Entities;
+
+namespace JohnyLastDep.Domain.Interfaces
 {
 	public interface IGameHub
 	{
-		Task CreateRoom(string roomName);
+		Task CreateRoom(string roomName, string userName);
 		Task GetRooms();
-		Task JoinRoom(string roomName, string username);
+		Task JoinRoom(string roomName, string userName);
 		Task LeaveRoom(string roomName, string userId);
 		Task StartGame(string roomName);
 		Task GetBettingPlayer(string roomName);

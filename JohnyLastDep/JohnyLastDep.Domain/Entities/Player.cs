@@ -8,15 +8,19 @@
 		public int Chips { get; set; }
 		public int CurrentBet { get; set; }
 		public bool IsPlaying { get; set; }
+		public bool IsReady { get; set; }
 
-		public Player(string name, int startingChips)
+		public Player() { }
+
+		public Player(string id, string name, int startingChips)
 		{
-			Id = Guid.NewGuid().ToString("N");
+			Id = id;
 			Name = name;
 			Chips = startingChips;
-			HandCards = [];
+			HandCards = new List<Card>();
 			CurrentBet = 0;
 			IsPlaying = true;
+			IsReady = false;
 		}
 
 		public void Fold()
@@ -35,6 +39,11 @@
 			HandCards.Clear();
 			CurrentBet = 0;
 			IsPlaying = true;
+			IsReady = false;
+			if(Chips < 100)
+			{
+				Chips = 500;
+			}
 		}
 	}
 }

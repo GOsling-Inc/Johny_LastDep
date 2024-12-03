@@ -1,0 +1,107 @@
+﻿@implements IDisposable
+
+@if(room != null)
+{
+	@if (room.CurrentPlayer is null)
+	{
+		<div class="pregame-info">
+			@(room.IsReady != @room.Players.Count ? $"{room.IsReady} / {room.Players.Count} Ready" 
+				: "Starting the game...")
+		</div>
+	}
+	else
+	{
+			<div class="cards-field">
+				<div style="display: flex; flex-direction: column;">
+					<p class="game-info">Round: @Rounds[room.Game.GameState.CurrentRound]</p>
+					<p class="game-info">Current pot: @room.Game.BettingManager.Pot.TotalAmount</p>
+					@if (room.Game.GameState.CurrentRound != 5 || room.Game.Winners.Count == 0)
+					{
+						<p class="game-info">Current round bet: @room.Game.BettingManager.CurrentBet</p>
+					} else
+					{
+						<div class="game-info">@winner:
+							@foreach (var p in room.Game.Winners)
+							{
+								<p class="game-info" style="margin-bottom: 5px; margin-left: 10px;">Player: 
+									<span style="text-transform: uppercase;">@(p.Name + " ")</span>
+								</p>
+							}
+						</div>
+					}
+					<div class="cards">
+						@foreach (var card in room.Game.GameTable.CommunityCards)
+						{
+							<img src=@($"/images/cards/{card.ToString()}.svg") alt="" width="150" height="200" />
+						}
+					</div>
+				</div>
+				<div class="cards-deck">
+					@for (var i = 0; i < 4; ++i)
+					{
+						<img class="card" src="/images/card-bg.png" alt="" width="150" height="200" />
+					}
+				</div>
+			</div>
+		}
+	
+}
+
+@code {
+	[Parameter]
+	public string RoomName { get; set; } = "";
+
+	[Inject]
+	public GameClient GameClient { get; set; }
+
+	private GameRoom? room;
+
+	private string winner = "Winner";
+
+	protected override async Task OnInitializedAsync()
+	{
+		GameClient.OnRoomsUpdated += StateHasChanged;
+		GameClient.OnGameStateUpdated += GetInfo;
+		GetInfo(RoomName);
+	}
+
+	private void GetInfo(string roomName)
+	{
+		room = GameClient.Rooms.GetValueOrDefault(roomName);
+		StateHasChanged();
+		ResetGame();
+	}
+
+	public async void Dispose()
+	{
+		GameClient.OnRoomsUpdated -= StateHasChanged;
+		GameClient.OnGameStateUpdated -= GetInfo;
+	}
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+	}
+
+	private async void ResetGame()
+	{
+		if (room is null || room.Game.GameState.CurrentRound != 5 || room.Game.Winners.Count == 0) return;
+		Console.WriteLine("aboba");
+		if (room.Game.Winners.Count > 1)
+		{
+			winner += "s";
+			StateHasChanged();
+		}
+		await Task.Delay(1000 * 10);
+		await GameClient.ResetGame(RoomName);
+	}
+
+	private Dictionary<int, string> Rounds = new(){
+		{0, "Blind"},
+		{1, "Pre Flop"},
+		{2, "Flop"},
+		{3, "Turn"},
+		{4, "River"},
+		{5, "Showdown"}
+	};
+}

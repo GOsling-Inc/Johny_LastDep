@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JohnyLastDep.Domain", "John
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JohnyLastDep.UI", "JohnyLastDep.UI\JohnyLastDep.UI.csproj", "{865B72C1-9F81-4E30-9A0F-FD2F2C09BB27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JohnyLastDep.Server", "JohnyLastDep.Server\JohnyLastDep.Server.csproj", "{C18852EE-7509-4888-9F1D-E3E71B2D5413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JohnyLastDep.Server", "JohnyLastDep.Server\JohnyLastDep.Server.csproj", "{C18852EE-7509-4888-9F1D-E3E71B2D5413}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

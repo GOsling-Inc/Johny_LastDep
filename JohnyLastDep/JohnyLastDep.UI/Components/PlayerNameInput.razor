@@ -1,16 +1,23 @@
 ﻿<div class="name-input-cont">
-	<h3>Enter your name</h3>
+	<h4>Enter your name to play</h4>
 	<EditForm class="player-name-input" Model="@PlayerName">
 		<DataAnnotationsValidator />
-		<div>
-			<label>Player Name:</label>
-			<InputText @bind-Value="PlayerName.Name" placeholder="Enter player name" type="text" />
-			<ValidationMessage For="@(() => PlayerName.Name)" />
-		</div>
+		<InputText @bind-Value="PlayerName.Name" placeholder="Enter player name" type="text" oninput="@HandleNameInput"/>
+		<ValidationMessage For="@(() => PlayerName.Name)" />
 	</EditForm>
 </div>
 
 @code {
 	[Parameter]
 	public PlayerName PlayerName { get; set; } = new PlayerName();
+
+	[Parameter]
+	public EventCallback OnNameChanged { get; set; }
+
+	private async Task HandleNameInput(ChangeEventArgs e)
+	{
+		PlayerName.Name = e.Value?.ToString() ?? string.Empty;
+		await OnNameChanged.InvokeAsync();
+		Console.WriteLine("name changed!");
+	}
 }

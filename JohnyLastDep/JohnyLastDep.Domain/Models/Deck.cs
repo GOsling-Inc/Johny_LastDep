@@ -44,7 +44,8 @@ namespace JohnyLastDep.Domain.Models
 		{
 			if (cards.Count == 0)
 			{
-				throw new InvalidOperationException("Empty deck");
+				Reset();
+				Shuffle();
 			}
 			Card card = cards[0];
 			cards.RemoveAt(0);

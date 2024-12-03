@@ -1,19 +1,60 @@
 ﻿@implements IDisposable
 
 <div class="room-list">
-	<div class="room-item">
-		<strong>Room</strong> — 2/4
-	</div>
+	@if (GameClient.Rooms.Keys.Any())
+	{
+		@foreach (var roomName in GameClient.Rooms.Keys)
+		{
+			<div class="room-item">
+				<div>
+					<strong>@roomName </strong> - @GameClient.Rooms[roomName].Players.Count / 4;
+				</div>
+				@if (GameClient.Rooms[roomName].Players.Count < 4 && GameClient.Rooms[roomName].CurrentPlayer is null)
+				{
+					<button type="button" class="btn-secondary" onclick="@(() => JoinRoom(roomName))" 
+						disabled="@IsDisabled">Join</button>
+				}
+			</div>
+		}
+	}
+	else
+	{
+		<p style="font-family:Garamond; color:white; font-weight:bold;">No available rooms</p>
+	}
 </div>
 
 @code {
+	[Inject]
+	public GameClient GameClient { get; set; }
+
+	[Inject]
+	public NavigationManager NavigationManager { get; set; }
+
+	[Parameter]
+	public PlayerName PlayerName { get; set; } = new PlayerName();
+
+	[Parameter]
+	public bool HasName { get; set; } = false;
+
+	private bool IsDisabled => !HasName;
+
 	protected override async Task OnInitializedAsync()
 	{
-		// GameClient.OnRoomsUpdated += StateHasChanged;
+		GameClient.OnRoomsUpdated += StateHasChanged;
+		await GameClient.GetRooms();
 	}
 
 	public void Dispose()
 	{
-		// GameClient.OnRoomsUpdated -= StateHasChanged;
+		GameClient.OnRoomsUpdated -= StateHasChanged;
+	}
+
+	private async void JoinRoom(string roomName)
+	{
+		if(!IsDisabled)
+		{
+			await GameClient.JoinRoom(roomName, PlayerName.Name);
+			NavigationManager.NavigateTo($"/room/{roomName}");
+		}
 	}
 }

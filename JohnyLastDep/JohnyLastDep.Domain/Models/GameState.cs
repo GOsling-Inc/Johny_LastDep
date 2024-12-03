@@ -4,10 +4,11 @@ namespace JohnyLastDep.Domain.Models
 {
 	public class GameState
 	{
-		public int CurrentRound { get; private set; }
-		public int CurrentPlayer { get; private set; }
-		public int InitialPosition { get; private set; }
-		public List<Player> ActivePlayers { get; private set; }
+		public int CurrentRound { get; set; } = 0;
+		public int CurrentPlayer { get; set; } = 0;
+		public int InitialPosition { get; set; } = 0;
+		public List<Player> ActivePlayers { get; set; } = new List<Player>();
+		public GameState() { }
 		public GameState(List<Player> players)
 		{
 			CurrentRound = 0;
@@ -31,6 +32,7 @@ namespace JohnyLastDep.Domain.Models
 		public void RemovePlayer(Player player)
 		{
 			ActivePlayers.Remove(player);
+			player.IsPlaying = false;
 			if (InitialPosition >= ActivePlayers.Count())
 			{
 				InitialPosition--;
