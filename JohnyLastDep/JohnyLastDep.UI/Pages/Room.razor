@@ -16,9 +16,6 @@
 	[Inject]
 	public GameClient GameClient { get; set; }
 
-	[Inject]
-	public NavigationManager NavigationManager { get; set; }
-
 	[Parameter]
 	public string RoomName { get; set; }
 
@@ -28,27 +25,21 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		GameClient.OnGameStateUpdated += UpdateOpponents;
-		// if (!GameClient.Rooms.ContainsKey(RoomName))
-		// {
-		// 	NavigationManager.NavigateTo("/");
-		// 	return;
-		// }
-
-		UpdateOpponents(RoomName);
+		GameClient.OnRoomsUpdated += UpdateOpponents;
+		UpdateOpponents();
 	}
 
-	private void UpdateOpponents(string roomName)
+	private void UpdateOpponents()
 	{
-		if (GameClient.Rooms.ContainsKey(roomName) && GameClient.Player != null)
+		if (GameClient.Rooms.ContainsKey(RoomName) && GameClient.Player != null)
 		{
-			opponents = GameClient.Rooms[roomName].Players.FindAll(p => p.Id != GameClient.Player.Id);
+			opponents = GameClient.Rooms[RoomName].Players.FindAll(p => p.Id != GameClient.Player.Id);
 			StateHasChanged();
 		}
 	}
 
 	public async void Dispose()
 	{
-		GameClient.OnGameStateUpdated -= UpdateOpponents;
+		GameClient.OnRoomsUpdated -= UpdateOpponents;
 	}
 }

@@ -28,9 +28,9 @@ namespace JohnyLastDep.Domain.Models
 			Dealer.ShuffleDeck();
 		}
 
-		public Player GetBettingPlayer()
+		public Player? GetBettingPlayer()
 		{
-			return GameState.ActivePlayers[GameState.CurrentPlayer];
+			return GameState.ActivePlayers.Count > 0 ? GameState.ActivePlayers[GameState.CurrentPlayer] : null;
 		}
 
 		public void Bet(string id, int amount)
@@ -64,7 +64,7 @@ namespace JohnyLastDep.Domain.Models
 		{
 			var player = Players.Find((p) => p.Id == id)!;
 			GameState.RemovePlayer(player);
-			GameState.Next();
+			GameState.Next(true);
 			if (GameState.CurrentPlayer == GameState.InitialPosition)
 			{
 				if (BettingManager.CurrentBet == 0 && GameState.CurrentRound == 0)
@@ -85,6 +85,7 @@ namespace JohnyLastDep.Domain.Models
 			{
 				Winners = Dealer.DetermineWinner(GameState.ActivePlayers);
 				Dealer.DistributeWinnings(Winners, BettingManager.Pot);
+				GameState.CurrentRound = 5;
 			}
 		}
 

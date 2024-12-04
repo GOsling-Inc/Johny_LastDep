@@ -29,7 +29,6 @@ namespace JohnyLastDep.Server
 			await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
 			var player = new Player(Context.ConnectionId, userName, 1000);
 			rooms[roomName].Players.Add(player);
-			Console.WriteLine("After");
 			await Clients.Caller.ReceivePlayer(player);
 			await UpdateRooms();
 			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
@@ -40,7 +39,6 @@ namespace JohnyLastDep.Server
 			await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
 			var player = rooms[roomName].Players.Where((p) => p.Id == userId).First();
 			rooms[roomName].Players.Remove(player);
-			rooms[roomName].Game.Players.Remove(player);
 			if (player.IsReady) rooms[roomName].IsReady -= 1;
 			await UpdateRooms();
 			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
@@ -74,6 +72,11 @@ namespace JohnyLastDep.Server
 			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
 		}
 
+		public async Task GetGameState(string roomName)
+		{
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+		}
+
 		public async Task UpdateRoomPlayers(string roomName)
 		{
 			foreach(var player in rooms[roomName].Players)
@@ -81,21 +84,23 @@ namespace JohnyLastDep.Server
 				await Clients.Client(player.Id).ReceivePlayer(player);
 			}
 		}
+
 		public async Task Bet(string roomName, string userId, int chips)
 		{
 			if (!rooms.ContainsKey(roomName)) return;
 			rooms[roomName].Game.Bet(userId, chips);
-			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
+			var game = rooms[roomName].Game;
 			await Clients.Group(roomName).ReceiveRooms(rooms);
-			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
+			await Clients.Group(roomName).ReceiveGameState(roomName, game);
+			await Clients.Group(roomName).ReceiveBettingPlayer(roomName,game.GetBettingPlayer());
 			await UpdateRoomPlayers(roomName);
 		}
 		public async Task Check(string roomName, string userid)
 		{
 			if (!rooms.ContainsKey(roomName)) return;
 			rooms[roomName].Game.Check(userid);
-			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
 			await Clients.Group(roomName).ReceiveRooms(rooms);
+			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
 			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
 			await UpdateRoomPlayers(roomName);
 		}
@@ -104,8 +109,8 @@ namespace JohnyLastDep.Server
 			if (!rooms.ContainsKey(roomName)) return;
 			rooms[roomName].Game.Fold(userid);
 			await Clients.Group(roomName).ReceiveGameState(roomName, rooms[roomName].Game);
-			await Clients.Group(roomName).ReceiveRooms(rooms);
 			await Clients.Group(roomName).ReceiveBettingPlayer(roomName, rooms[roomName].Game.GetBettingPlayer());
+			await Clients.Group(roomName).ReceiveRooms(rooms);
 			await UpdateRoomPlayers(roomName);
 		}
 		public async Task Reset(string roomName)

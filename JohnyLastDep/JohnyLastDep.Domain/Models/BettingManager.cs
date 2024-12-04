@@ -5,6 +5,7 @@ namespace JohnyLastDep.Domain.Models
 	public class BettingManager
 	{
 		public int CurrentBet { get; set; } = 0;
+		public int RoundBet { get; set; } = 0;
 		public Pot Pot { get; set; } = new Pot();
 		public List<Player> Players { get; set; }
 		public BettingManager() { }
@@ -17,6 +18,7 @@ namespace JohnyLastDep.Domain.Models
 		public void Next()
 		{
 			CurrentBet = 0;
+			RoundBet = 0;
 		}
 		public void PlaceBet(Player player, int amount)
 		{
@@ -29,10 +31,10 @@ namespace JohnyLastDep.Domain.Models
 			{
 				throw new InvalidOperationException("Недостаточно фишек для ставки.");
 			}
-
 			player.Bet(amount);
 			Pot.AddBet(amount, player);
 			CurrentBet = player.CurrentBet;
+			RoundBet = amount;
 			Console.WriteLine($"{player.Name} ставит {amount}. Текущий ставка: {CurrentBet}");
 		}
 		public void Check(Player player)
@@ -56,6 +58,7 @@ namespace JohnyLastDep.Domain.Models
 			}
 			Pot = new Pot();
 			CurrentBet = 0;
+			RoundBet = 0;
 		}
 	}
 }

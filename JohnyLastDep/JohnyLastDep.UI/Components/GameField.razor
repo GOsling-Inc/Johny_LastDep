@@ -17,17 +17,18 @@
 					<p class="game-info">Current pot: @room.Game.BettingManager.Pot.TotalAmount</p>
 					@if (room.Game.GameState.CurrentRound != 5 || room.Game.Winners.Count == 0)
 					{
-						<p class="game-info">Current round bet: @room.Game.BettingManager.CurrentBet</p>
+						<p class="game-info">Current round bet: @room.Game.BettingManager.RoundBet</p>
 					} else
 					{
-						<div class="game-info">@winner:
+					<p class="game-info" style="margin-bottom: 5px;">
+						@winner:
 							@foreach (var p in room.Game.Winners)
 							{
-								<p class="game-info" style="margin-bottom: 5px; margin-left: 10px;">Player: 
-									<span style="text-transform: uppercase;">@(p.Name + " ")</span>
-								</p>
+								<span class="game-info" style="margin-inline: 10px;">Player -  
+									<span style="text-transform: uppercase;">@p.Name</span>
+								</span>
 							}
-						</div>
+						</p>
 					}
 					<div class="cards">
 						@foreach (var card in room.Game.GameTable.CommunityCards)
@@ -60,7 +61,6 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		GameClient.OnRoomsUpdated += StateHasChanged;
 		GameClient.OnGameStateUpdated += GetInfo;
 		GetInfo(RoomName);
 	}
@@ -74,7 +74,6 @@
 
 	public async void Dispose()
 	{
-		GameClient.OnRoomsUpdated -= StateHasChanged;
 		GameClient.OnGameStateUpdated -= GetInfo;
 	}
 
@@ -86,7 +85,6 @@
 	private async void ResetGame()
 	{
 		if (room is null || room.Game.GameState.CurrentRound != 5 || room.Game.Winners.Count == 0) return;
-		Console.WriteLine("aboba");
 		if (room.Game.Winners.Count > 1)
 		{
 			winner += "s";

@@ -21,12 +21,14 @@ namespace JohnyLastDep.Domain.Models
 			CurrentRound++;
 			CurrentPlayer = InitialPosition;
 		}
-		public void Next()
+		public void Next(bool isFold = false)
 		{
 			CurrentPlayer++;
-			if (CurrentPlayer >= ActivePlayers.Count())
+			var players = ActivePlayers.Count();
+			if (CurrentPlayer >= players)
 			{
-				CurrentPlayer = 0;
+				if(isFold) CurrentPlayer = players - 1;
+				else CurrentPlayer = 0;
 			}
 		}
 		public void RemovePlayer(Player player)
@@ -35,12 +37,12 @@ namespace JohnyLastDep.Domain.Models
 			player.IsPlaying = false;
 			if (InitialPosition >= ActivePlayers.Count())
 			{
-				InitialPosition--;
+				--InitialPosition;
 			}
 		}
 		public void ResetGameState(List<Player> players)
 		{
-			ActivePlayers = new List<Player>(players);
+			ActivePlayers = new List<Player>();
 			CurrentRound = 0;
 			InitialPosition++;
 			if (InitialPosition >= ActivePlayers.Count())

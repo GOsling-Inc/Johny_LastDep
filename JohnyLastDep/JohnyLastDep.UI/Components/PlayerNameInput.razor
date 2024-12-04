@@ -18,6 +18,5 @@
 	{
 		PlayerName.Name = e.Value?.ToString() ?? string.Empty;
 		await OnNameChanged.InvokeAsync();
-		Console.WriteLine("name changed!");
 	}
 }

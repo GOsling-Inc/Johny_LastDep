@@ -86,16 +86,24 @@ namespace JohnyLastDep.UI
 		public async Task Bet(string roomName, string userId, int chips)
 		{
 			await _connection.InvokeAsync("Bet", roomName, userId, chips);
+			await Task.Delay(1000);
+			await _connection.InvokeAsync("GetBettingPlayer", roomName);
+			await _connection.InvokeAsync("GetGameState", roomName);
 		}
 
 		public async Task Check(string roomName, string userId)
 		{
 			await _connection.InvokeAsync("Check", roomName, userId);
+			await Task.Delay(1000);
+			await _connection.InvokeAsync("GetBettingPlayer", roomName);
+			await _connection.InvokeAsync("GetGameState", roomName);
 		}
 
 		public async Task Fold(string roomName, string userId)
 		{
 			await _connection.InvokeAsync("Fold", roomName, userId);
+			await Task.Delay(1000);
+			await _connection.InvokeAsync("GetGameState", roomName);
 		}
 
 		public async Task ResetGame(string roomName)

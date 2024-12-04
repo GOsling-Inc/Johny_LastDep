@@ -46,7 +46,6 @@
 	{
 		if (!IsDisabled)
 		{
-			Console.WriteLine("create");
 			await GameClient.CreateRoom(createRoomModel.RoomName, PlayerName.Name);
 			NavigationManager.NavigateTo($"/room/{createRoomModel.RoomName}");
 		}

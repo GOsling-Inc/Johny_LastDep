@@ -47,7 +47,9 @@
 					<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px;">
 						@if (Info.Chips > 0 && (Info.CurrentBet < room.Game.BettingManager.CurrentBet || room.Game.BettingManager.CurrentBet == 0))
 						{
-							<button type="button" class="btn-action" onclick="@(() => Bet())">Bet @CountBet()</button>
+							<button type="button" class="btn-action" onclick="@(() => Bet())">
+								@(room.Game.BettingManager.RoundBet == 0 || room.Game.GameState.CurrentRound == 0 ? "Bet" : "Call") @CountBet()
+							</button>
 						} else
 						{
 							<div></div>
@@ -59,7 +61,7 @@
 								{
 									<button type="button" class="btn-action" onclick="@(() => Check())">Check</button>
 								}
-								<button type="button" class="btn-action">Fold</button>
+								<button type="button" class="btn-action" onclick="@(() => Fold())">Fold</button>
 							}
 						</div>
 					</div>
@@ -152,7 +154,12 @@
 			PlayerBet = Info.Chips < 50 ? Info.Chips : 50;
 		else 
 			PlayerBet = room.Game.BettingManager.CurrentBet - Info.CurrentBet;
-		return PlayerBet;
+		if (PlayerBet % 50 != 0) return PlayerBet;
+		double coeff = 1;
+		if (room.Game.GameState.CurrentRound > 3) coeff = 1.5;
+		else if (room.Game.GameState.CurrentRound > 2) coeff = 1.2;
+		PlayerBet = (int)(PlayerBet * coeff);
+		return PlayerBet; 
 	}
 
 	private async void Bet()
